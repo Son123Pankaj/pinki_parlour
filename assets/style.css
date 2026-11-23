@@ -1,5 +1,5 @@
-/* Glow & Grace Beauty Parlour - Custom Luxury Stylesheet */
-@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+/* Kittu Beauty Parlour - Custom Luxury Stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap');
 
 :root {
   --primary-pink: #d8426f;
@@ -21,6 +21,25 @@
   --shadow-elevated: 0 20px 40px -15px rgba(216, 66, 111, 0.22);
 }
 
+.dark {
+  --primary-pink: #e05680;
+  --primary-pink-hover: #cb3e69;
+  --primary-pink-dark: #b02652;
+  --primary-pink-light: #2c1a22;
+  --primary-pink-subtle: #24161c;
+  --secondary-blush: #1f1418;
+  --dark-bg: #0d0a0c;
+  --dark-surface: #171114;
+  --dark-border: #34222a;
+  --text-main: #f8ecf0;
+  --text-muted: #bdaab2;
+  --text-light: #8e7a83;
+  --card-border: #38242d;
+  --shadow-soft: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --shadow-elevated: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+  color-scheme: dark;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -28,11 +47,16 @@
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Jost', sans-serif;
   color: var(--text-main);
   background-color: #fffafb;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button, input, select, textarea {
+  font-family: 'Jost', sans-serif;
 }
 
 h1, h2, h3, .font-serif {
@@ -99,16 +123,216 @@ button, a, input, select {
   pointer-events: none;
 }
 
-/* Service Card Hover Styling */
+/* Announcement Marquee Ticker */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 32s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Card Bouncing & Spring Hover Animations */
+@keyframes cardBounce {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  28% {
+    transform: translateY(-13px) scale(1.02);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.008);
+  }
+  72% {
+    transform: translateY(-8px) scale(1.015);
+  }
+  86% {
+    transform: translateY(-5px) scale(1.01);
+  }
+  100% {
+    transform: translateY(-6px) scale(1.01);
+  }
+}
+
+@keyframes gentleCardFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes badgeBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Service Card Hover & Bounce Styling */
 .service-card {
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.3s ease;
   border: 1px solid #fae4ea;
+  will-change: transform;
 }
 .service-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 32px -8px rgba(216, 66, 111, 0.2);
+  animation: cardBounce 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  box-shadow: 0 22px 42px -10px rgba(216, 66, 111, 0.28);
   border-color: #f3b3c4;
   background: #ffffff !important;
+}
+.service-card:active {
+  transform: scale(0.97) translateY(-2px) !important;
+  transition: transform 0.12s ease;
+}
+
+/* Gallery and Interactive Card Bounce */
+.gallery-card {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+  cursor: pointer;
+  will-change: transform;
+}
+.gallery-card:hover {
+  animation: cardBounce 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  box-shadow: 0 20px 38px -8px rgba(216, 66, 111, 0.3);
+}
+
+.testimonial-card {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.3s ease;
+}
+.testimonial-card:hover {
+  animation: cardBounce 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  box-shadow: 0 18px 34px -8px rgba(216, 66, 111, 0.2);
+  border-color: #f3b3c4;
+}
+
+.bouncing-card {
+  animation: gentleCardFloat 3s ease-in-out infinite;
+}
+
+.badge-bounce {
+  animation: badgeBounce 2s ease-in-out infinite;
+}
+
+/* Page Scroll: Card Bouncing Animation (Triggered when user scrolls page) */
+@keyframes scrollCardBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  28% {
+    transform: translateY(-12px) scale(1.018);
+  }
+  55% {
+    transform: translateY(2px) scale(0.995);
+  }
+  78% {
+    transform: translateY(-5px) scale(1.008);
+  }
+}
+
+.scroll-bouncing-card {
+  animation: scrollCardBounce 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  will-change: transform;
+}
+
+/* Dark Mode Component Overrides */
+.dark body {
+  background-color: #120e10;
+  color: #f8ecf0;
+}
+.dark .bg-white {
+  background-color: #1c1519 !important;
+  color: #f8ecf0 !important;
+}
+.dark .bg-\[\#fffafb\] {
+  background-color: #161014 !important;
+}
+.dark .bg-\[\#fef3f5\], .dark .bg-\[\#fde9ee\], .dark .bg-\[\#fbf0f3\] {
+  background: #171114 !important;
+}
+.dark .bg-\[\#fef5f7\], .dark .bg-\[\#fdf2f4\], .dark .bg-\[\#fdfafb\] {
+  background-color: #241920 !important;
+}
+.dark .border-\[\#fae2e8\], .dark .border-\[\#fae4ea\], .dark .border-\[\#fae1e7\] {
+  border-color: #38242d !important;
+}
+.dark .text-gray-900, .dark .text-\[\#231b1f\] {
+  color: #ffffff !important;
+}
+.dark .text-gray-800, .dark .text-gray-700 {
+  color: #ede2e6 !important;
+}
+.dark .text-gray-600, .dark .text-gray-500 {
+  color: #baa7b0 !important;
+}
+.dark .time-slot-btn {
+  background-color: #241920 !important;
+  color: #f5eaee !important;
+  border-color: #38242d !important;
+}
+.dark .time-slot-btn.selected {
+  background: var(--primary-pink) !important;
+  color: #ffffff !important;
+  border-color: var(--primary-pink) !important;
+}
+.dark input, .dark select, .dark textarea {
+  background-color: #251b22 !important;
+  color: #ffffff !important;
+  border-color: #38242d !important;
+}
+.dark input::placeholder, .dark textarea::placeholder {
+  color: #8c7782 !important;
+}
+.dark .modal-content-box {
+  background-color: #1c1519 !important;
+  border-color: #38242d !important;
+  color: #f8ecf0 !important;
+}
+
+/* Lightbox Fade & Scale Animation */
+@keyframes lightboxIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.lightbox-content {
+  animation: lightboxIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-card:hover, .gallery-card:hover, .testimonial-card:hover {
+    animation: none;
+    transform: translateY(-4px);
+  }
+  .bouncing-card, .badge-bounce {
+    animation: none;
+  }
 }
 
 /* Time Slot Selection Chips */
