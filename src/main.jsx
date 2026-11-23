@@ -1,5 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
+import engagementMakeupImage from "../assets/images/engagement_makeup_perfect.jpg";
+import faceWaxImage from "../assets/images/face_wax_perfect.jpg";
+import fullLegWaxImage from "../assets/images/full_leg_wax_perfect.jpg";
+import hairSpaImage from "../assets/images/hair_spa_perfect.jpg";
+import handWaxImage from "../assets/images/hand_wax_perfect.jpg";
+import partyMakeupImage from "../assets/images/party_makeup_perfect.jpg";
+import referenceBannerImage from "../assets/images/reference_banner.jpg";
 import "../assets/style.css";
 
 const phone = "+91 83050 06343";
@@ -8,12 +15,12 @@ const address = "Char Sahar Ka Naka, Gwalior, Madhya Pradesh";
 const services = [
   { id:"o3-facial", title:"O3+ Facial", category:"Facial & Glow", price:1000, duration:"50 mins", image:"https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80", description:"Professional O3+ deep cleansing, brightening peel and radiant glow treatment.", includes:["Deep cleanser & toner","Aromatherapy ozone steam","Blackhead extraction","Derma glow infusion & mask"] },
   { id:"full-body-wax", title:"Full Body Wax", category:"Waxing & Smoothness", price:1200, duration:"75 mins", image:"https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=600&q=80", description:"Complete full body waxing with premium soothing wax.", includes:["Skin sanitization","Full arms, legs & torso wax","Aloe vera application","Redness prevention"] },
-  { id:"hand-wax", title:"Hand Wax", category:"Waxing & Smoothness", price:300, duration:"25 mins", image:"assets/images/hand_wax_perfect.jpg", description:"Gentle hand waxing from fingers to shoulders.", includes:["Full hand waxing","Cuticle oil","Cooling lotion"] },
-  { id:"full-leg-wax", title:"Full Leg Wax", category:"Waxing & Smoothness", price:300, duration:"35 mins", image:"assets/images/full_leg_wax_perfect.jpg", description:"Thorough leg waxing for ultra-soft, smooth skin.", includes:["Complete full leg waxing","In-grown care","Rose lotion finish"] },
-  { id:"face-wax", title:"Face Wax", category:"Facial & Waxing", price:300, duration:"20 mins", image:"assets/images/face_wax_perfect.jpg", description:"Delicate facial waxing for sensitive skin.", includes:["Sensitive wax","Lip, chin & forehead touch-up","Soothing ice mist"] },
-  { id:"hair-spa", title:"Hair Spa", category:"Hair Care", price:300, duration:"45 mins", image:"assets/images/hair_spa_perfect.jpg", description:"Nourishing hair spa that restores moisture and combats frizz.", includes:["Scalp cleansing","Keratin cream mask","Steam therapy","Head & shoulder massage"] },
-  { id:"party-makeup", title:"Party Makeup", category:"Glamour & Makeup", price:1200, duration:"60 mins", image:"assets/images/party_makeup_perfect.jpg", description:"Stunning HD party makeup with a long-lasting glow.", includes:["Pore minimising primer","HD foundation","Eye glam & lashes","Setting mist"] },
-  { id:"engagement-makeup", title:"Engagement Makeup", category:"Bridal Suite", price:3000, duration:"120 mins", image:"assets/images/engagement_makeup_perfect.jpg", description:"Royal engagement makeover with premium styling.", includes:["HD bridal foundation","Designer eye glam","Custom hair styling","Draping assistance"] }
+  { id:"hand-wax", title:"Hand Wax", category:"Waxing & Smoothness", price:300, duration:"25 mins", image:handWaxImage, description:"Gentle hand waxing from fingers to shoulders.", includes:["Full hand waxing","Cuticle oil","Cooling lotion"] },
+  { id:"full-leg-wax", title:"Full Leg Wax", category:"Waxing & Smoothness", price:300, duration:"35 mins", image:fullLegWaxImage, description:"Thorough leg waxing for ultra-soft, smooth skin.", includes:["Complete full leg waxing","In-grown care","Rose lotion finish"] },
+  { id:"face-wax", title:"Face Wax", category:"Facial & Waxing", price:300, duration:"20 mins", image:faceWaxImage, description:"Delicate facial waxing for sensitive skin.", includes:["Sensitive wax","Lip, chin & forehead touch-up","Soothing ice mist"] },
+  { id:"hair-spa", title:"Hair Spa", category:"Hair Care", price:300, duration:"45 mins", image:hairSpaImage, description:"Nourishing hair spa that restores moisture and combats frizz.", includes:["Scalp cleansing","Keratin cream mask","Steam therapy","Head & shoulder massage"] },
+  { id:"party-makeup", title:"Party Makeup", category:"Glamour & Makeup", price:1200, duration:"60 mins", image:partyMakeupImage, description:"Stunning HD party makeup with a long-lasting glow.", includes:["Pore minimising primer","HD foundation","Eye glam & lashes","Setting mist"] },
+  { id:"engagement-makeup", title:"Engagement Makeup", category:"Bridal Suite", price:3000, duration:"120 mins", image:engagementMakeupImage, description:"Royal engagement makeover with premium styling.", includes:["HD bridal foundation","Designer eye glam","Custom hair styling","Draping assistance"] }
 ];
 
 const serviceCategories = ["All Services", ...new Set(services.map(service => service.category))];
@@ -296,7 +303,7 @@ function App() {
       </Modal>
 
       <Modal open={videoOpen} onClose={()=>setVideoOpen(false)} wide>
-        <div className="p-4 bg-[#161214] text-white flex justify-between"><span className="font-serif">Virtual Tour</span><button onClick={()=>setVideoOpen(false)}><Icon name="close"/></button></div><video className="w-full aspect-video" controls autoPlay muted loop poster="assets/images/reference_banner.jpg"><source src="https://assets.mixkit.co/videos/preview/mixkit-woman-getting-her-makeup-done-by-a-professional-makeup-artist-41315-large.mp4" type="video/mp4"/></video>
+        <div className="p-4 bg-[#161214] text-white flex justify-between"><span className="font-serif">Virtual Tour</span><button onClick={()=>setVideoOpen(false)}><Icon name="close"/></button></div><video className="w-full aspect-video" controls autoPlay muted loop poster={referenceBannerImage}><source src="https://assets.mixkit.co/videos/preview/mixkit-woman-getting-her-makeup-done-by-a-professional-makeup-artist-41315-large.mp4" type="video/mp4"/></video>
       </Modal>
     </>
   );
