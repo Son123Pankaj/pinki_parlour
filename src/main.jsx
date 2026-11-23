@@ -19,7 +19,7 @@ const services = [
   { id:"hand-wax", title:"Hand Wax", category:"Waxing & Smoothness", price:300, duration:"25 mins", image:handWaxImage, description:"Gentle hand waxing from fingers to shoulders.", includes:["Full hand waxing","Cuticle oil","Cooling lotion"] },
   { id:"full-leg-wax", title:"Full Leg Wax", category:"Waxing & Smoothness", price:300, duration:"35 mins", image:fullLegWaxImage, description:"Thorough leg waxing for ultra-soft, smooth skin.", includes:["Complete full leg waxing","In-grown care","Rose lotion finish"] },
   { id:"face-wax", title:"Face Wax", category:"Facial & Waxing", price:300, duration:"20 mins", image:faceWaxImage, description:"Delicate facial waxing for sensitive skin.", includes:["Sensitive wax","Lip, chin & forehead touch-up","Soothing ice mist"] },
-  { id:"hair-spa", title:"Hair Spa", category:"Hair Care", price:300, duration:"45 mins", image:hairSpaImage, description:"Nourishing hair spa that restores moisture and combats frizz.", includes:["Scalp cleansing","Keratin cream mask","Steam therapy","Head & shoulder massage"] },
+  { id:"hair-spa", title:"Hair Spa", category:"Hair Care", price:600, duration:"45 mins", image:hairSpaImage, description:"Nourishing hair spa that restores moisture and combats frizz.", includes:["Scalp cleansing","Keratin cream mask","Steam therapy","Head & shoulder massage"] },
   { id:"party-makeup", title:"Party Makeup", category:"Glamour & Makeup", price:1200, duration:"60 mins", image:partyMakeupImage, description:"Stunning HD party makeup with a long-lasting glow.", includes:["Pore minimising primer","HD foundation","Eye glam & lashes","Setting mist"] },
   { id:"engagement-makeup", title:"Engagement Makeup", category:"Bridal Suite", price:3000, duration:"120 mins", image:engagementMakeupImage, description:"Royal engagement makeover with premium styling.", includes:["HD bridal foundation","Designer eye glam","Custom hair styling","Draping assistance"] }
 ];
@@ -41,9 +41,9 @@ const slots = [
 ];
 
 const testimonials = [
-  {name:"Priya Sharma", service:"Bridal Makeup", text:"My bridal makeover was flawless and lasted throughout the celebration."},
-  {name:"Anjali Verma", service:"Facial & Waxing", text:"The staff was incredibly professional and the parlour is spotless."},
-  {name:"Neha Kapoor", service:"Hair Spa", text:"My hair feels softer and healthier after every visit."}
+  {name:"Pinki Dhakare", service:"Bridal Makeup", text:"My bridal makeover was flawless and lasted throughout the celebration."},
+  // {name:"Anjali Verma", service:"Facial & Waxing", text:"The staff was incredibly professional and the parlour is spotless."},
+  // {name:"Neha Kapoor", service:"Hair Spa", text:"My hair feels softer and healthier after every visit."}
 ];
 
 function Icon({name, className="w-5 h-5"}) {
