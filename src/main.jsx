@@ -10,6 +10,7 @@ import referenceBannerImage from "../assets/images/reference_banner.jpg";
 import "../assets/style.css";
 
 const phone = "+91 83050 06343";
+const ownerWhatsApp = "+91 93995 11825";
 const address = "Char Sahar Ka Naka, Gwalior, Madhya Pradesh";
 
 const services = [
@@ -105,7 +106,7 @@ function App() {
     setFull(v=>({...v,service:serviceId}));
   };
 
-  const createBooking = async (data) => {
+  const createBooking = (data) => {
     const service = services.find(s=>s.id===data.service);
     if(!data.name||!data.phone||!service||!data.date){
       setToast("Please complete all required booking details.");
@@ -125,10 +126,21 @@ function App() {
     localStorage.setItem("glow_grace_appointments_v3",JSON.stringify(next));
     setBookingOpen(false);
     setPass(booking);
-    setToast("Appointment confirmed!");
-    try {
-      await fetch("/api/send-whatsapp",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ownerWhatsApp:phone,appointment:booking})});
-    } catch {}
+    const message = [
+      "🌸 New appointment booking - Kittu Beauty Parlour",
+      `Booking ID: ${booking.id}`,
+      `Name: ${booking.userName}`,
+      `Phone: ${booking.userPhone}`,
+      `Service: ${booking.serviceTitle}`,
+      `Date: ${booking.date}`,
+      `Time: ${booking.timeDisplay}`,
+      `Stylist: ${booking.stylist}`,
+      `Price: ₹${booking.price}`,
+      `Notes: ${booking.specialNotes}`
+    ].join("\n");
+    const whatsappUrl = `https://wa.me/${ownerWhatsApp.replace(/\D/g,"")}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl,"_blank","noopener,noreferrer");
+    setToast("Appointment saved. Complete sending in WhatsApp.");
   };
 
   const visibleTestimonials = useMemo(()=>[0,1,2].map(i=>testimonials[(testimonialIndex+i)%testimonials.length]),[testimonialIndex]);
@@ -158,11 +170,11 @@ function App() {
 
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#fae2e8] shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3 flex items-center justify-between">
-          <a href="#home" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#fdf2f4] flex items-center justify-center text-[#d8426f]">✿</div>
-            <div><span className="font-serif text-xl sm:text-2xl font-bold block leading-tight">Kittu</span><span className="text-[9px] uppercase tracking-[0.22em] text-[#d8426f] font-semibold">Beauty Parlour</span></div>
+          <a href="#home" className="flex items-center gap-2 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#fdf2f4] flex items-center justify-center text-[#d8426f]">✿</div>
+            <div><span className="font-serif text-lg sm:text-xl lg:text-2xl font-bold block leading-tight">Kittu</span><span className="text-[8px] sm:text-[9px] uppercase tracking-[0.18em] sm:tracking-[0.22em] text-[#d8426f] font-semibold">Beauty Parlour</span></div>
           </a>
-          <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-gray-700">
+          <nav className="hidden xl:flex items-center gap-7 text-sm font-medium text-gray-700">
             {navLink("#home","Home")}
             <div className="relative">
               <button type="button" onClick={()=>setServiceFiltersOpen(value=>!value)} aria-expanded={serviceFiltersOpen} className="hover:text-[#d8426f] transition-colors">Services⌄</button>
@@ -170,22 +182,23 @@ function App() {
                 {serviceCategories.map(category=><button type="button" key={category} onClick={()=>selectCategory(category)} className={`block w-full text-left px-3 py-2 rounded-lg text-xs ${activeCategory===category?"bg-[#fdf2f4] text-[#d8426f] font-semibold":"text-gray-700 hover:bg-[#fdf5f7]"}`}>{category}</button>)}
               </div>}
             </div>
-            {navigationLinks.slice(0, -1).map(([href,label])=>navLink(href,label))}
+            {navigationLinks.slice(1, -1).map(([href,label])=>navLink(href,label))}
             {navLink("#contact","Contact")}
           </nav>
           <div className="flex items-center gap-2">
-            <button onClick={()=>setAppointmentsOpen(true)} className="hidden sm:flex px-3 py-2 rounded-full bg-[#fdf2f4] text-[#d8426f] text-xs font-semibold border border-[#fae2e8]"><Icon name="calendar" className="w-4 h-4 mr-1"/>My Appointments</button>
-            <button onClick={()=>openBooking()} className="py-2.5 px-4 rounded-full bg-gradient-to-r from-[#d8426f] to-[#b32753] text-white text-xs sm:text-sm font-semibold">Book Appointment</button>
-            <button onClick={()=>setMobileOpen(v=>!v)} className="lg:hidden p-2"><Icon name={mobileOpen?"close":"menu"} /></button>
+            <button onClick={()=>setAppointmentsOpen(true)} className="hidden xl:flex px-3 py-2 rounded-full bg-[#fdf2f4] text-[#d8426f] text-xs font-semibold border border-[#fae2e8]"><Icon name="calendar" className="w-4 h-4 mr-1"/>My Appointments</button>
+            <button onClick={()=>openBooking()} className="whitespace-nowrap py-2.5 px-3 sm:px-4 rounded-full bg-gradient-to-r from-[#d8426f] to-[#b32753] text-white text-xs sm:text-sm font-semibold"><span className="sm:hidden">Book</span><span className="hidden sm:inline">Book Appointment</span></button>
+            <button onClick={()=>setMobileOpen(v=>!v)} aria-expanded={mobileOpen} aria-label={mobileOpen?"Close menu":"Open menu"} className="xl:hidden p-1.5 sm:p-2"><Icon name={mobileOpen?"close":"menu"} /></button>
           </div>
         </div>
-        {mobileOpen&&<div className="lg:hidden border-t border-[#fae2e8] bg-white px-6 py-4 flex flex-col gap-3 text-sm">
+        {mobileOpen&&<div className="xl:hidden border-t border-[#fae2e8] bg-white px-4 sm:px-6 py-4 flex flex-col gap-3 text-sm">
           {navLink("#home","Home")}{navLink("#services","Services")}
           <div className="border-t border-[#fae2e8] pt-3">
             <p className="text-[11px] uppercase tracking-wider text-gray-400 mb-2">Filter services</p>
             <div className="flex flex-wrap gap-2">{serviceCategories.map(category=><button type="button" key={category} onClick={()=>selectCategory(category)} className={`rounded-full border px-3 py-1.5 text-xs ${activeCategory===category?"bg-[#d8426f] border-[#d8426f] text-white":"border-[#fae2e8] text-gray-700"}`}>{category}</button>)}</div>
           </div>
-          {navigationLinks.map(([href,label])=>navLink(href,label))}
+          {navigationLinks.slice(1).map(([href,label])=>navLink(href,label))}
+          <button type="button" onClick={()=>{setAppointmentsOpen(true);setMobileOpen(false)}} className="text-left hover:text-[#d8426f] transition-colors">My Appointments</button>
         </div>}
       </header>
 
@@ -216,7 +229,7 @@ function App() {
           <div className="flex flex-wrap justify-center gap-2 mb-7" aria-label="Filter services by category">
             {serviceCategories.map(category=><button type="button" key={category} onClick={()=>setActiveCategory(category)} aria-pressed={activeCategory===category} className={`rounded-full border px-4 py-2 text-xs font-semibold transition-colors ${activeCategory===category?"bg-[#d8426f] border-[#d8426f] text-white":"border-[#fae2e8] bg-white text-gray-600 hover:text-[#d8426f]"}`}>{category}</button>)}
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {filteredServices.map(s=>(
               <article key={s.id} onClick={()=>setServiceModal(s)} className="service-card group bg-white rounded-2xl overflow-hidden p-3.5 text-left cursor-pointer border border-[#fae2e8] shadow-sm flex flex-col">
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-3"><img src={s.image} alt={s.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/><div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent"/><span className="absolute top-2 left-2 bg-black/60 text-white text-[10px] px-2 py-1 rounded-full">{s.category}</span><span className="absolute bottom-2 left-2 text-white text-[11px]">{s.duration}</span><span className="absolute bottom-2 right-2 bg-[#d8426f] text-white text-xs font-bold px-2 py-1 rounded-lg">₹{s.price}</span></div>
@@ -241,30 +254,30 @@ function App() {
                 <div className="grid sm:grid-cols-2 gap-3"><input value={quick.name} onChange={e=>setQuick({...quick,name:e.target.value})} placeholder="Your full name" className="w-full px-3 py-2.5 rounded-xl border border-[#fae2e8] text-xs"/><input value={quick.phone} onChange={e=>setQuick({...quick,phone:e.target.value})} placeholder="Mobile / WhatsApp" className="w-full px-3 py-2.5 rounded-xl border border-[#fae2e8] text-xs"/></div>
                 <div className="grid sm:grid-cols-2 gap-3"><select value={quick.service} onChange={e=>setQuick({...quick,service:e.target.value})} className="w-full px-3 py-2.5 rounded-xl border border-[#fae2e8] text-xs"><option value="">Select a service</option>{services.map(s=><option key={s.id} value={s.id}>{s.title} — ₹{s.price}</option>)}</select><input type="date" min={today} value={quick.date} onChange={e=>setQuick({...quick,date:e.target.value})} className="w-full px-3 py-2.5 rounded-xl border border-[#fae2e8] text-xs"/></div>
                 <div className="grid grid-cols-3 gap-2">{slots.map(([time])=> <button type="button" key={time} onClick={()=>setQuick({...quick,time})} className={`time-slot-btn py-2 px-2 rounded-xl text-xs ${quick.time===time?"selected":""}`}>{time}</button>)}</div>
-                <button type="submit" className="w-full py-3.5 rounded-xl bg-[#25D366] text-white font-bold text-sm">Send Appointment Details to Owner</button>
+                <button type="submit" className="w-full py-3.5 rounded-xl bg-[#25D366] text-white font-bold text-sm">Continue to WhatsApp</button>
               </form>
-              <p className="text-[11px] text-gray-500 text-center mt-3">Owner receiving number: <strong>{phone}</strong></p>
+              <p className="text-[11px] text-gray-500 text-center mt-3">WhatsApp booking number: <strong>{ownerWhatsApp}</strong></p>
             </div>
           </div>
         </section>
 
         <section id="testimonials" className="py-16 max-w-7xl mx-auto px-4 sm:px-8">
           <div className="text-center mb-10"><h2 className="text-3xl sm:text-4xl font-serif font-bold">What Our Clients Say</h2><p className="text-gray-500 text-sm mt-2">Real stories. Real confidence.</p></div>
-          <div className="grid md:grid-cols-3 gap-5">{visibleTestimonials.map(t=><article key={t.name} className="bg-white border border-[#fae2e8] rounded-2xl p-6 shadow-sm"><div className="text-[#d8426f] mb-3">★★★★★</div><p className="text-sm text-gray-600">"{t.text}"</p><h3 className="font-serif font-bold mt-4">{t.name}</h3><p className="text-xs text-gray-400">{t.service}</p></article>)}</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{visibleTestimonials.map(t=><article key={t.name} className="bg-white border border-[#fae2e8] rounded-2xl p-6 shadow-sm"><div className="text-[#d8426f] mb-3">★★★★★</div><p className="text-sm text-gray-600">"{t.text}"</p><h3 className="font-serif font-bold mt-4">{t.name}</h3><p className="text-xs text-gray-400">{t.service}</p></article>)}</div>
           <div className="flex justify-center gap-3 mt-6"><button onClick={()=>setTestimonialIndex(v=>v-1)} className="w-9 h-9 rounded-full border">‹</button><button onClick={()=>setTestimonialIndex(v=>v+1)} className="w-9 h-9 rounded-full border">›</button></div>
         </section>
 
         <section id="gallery" className="py-14 bg-[#fef5f7] border-t border-[#fae2e8]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-8"><h2 className="text-3xl sm:text-4xl font-serif font-bold text-center mb-8">Our Parlour Gallery</h2><div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8"><h2 className="text-3xl sm:text-4xl font-serif font-bold text-center mb-8">Our Parlour Gallery</h2><div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {[["1560066984-138dadb4c035","Hair Styling Station"],["1487412720507-e7ab37603c6f","Bridal Glam Lounge"],["1570172619644-dfd03ed5d881","Hydra Facial Suite"],["1604654894610-df63bc536371","Luxury Nail Bar"]].map(([id,label])=><div key={id} className="relative rounded-2xl overflow-hidden aspect-[4/3]"><img src={`https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=600&q=80`} alt={label} className="w-full h-full object-cover hover:scale-105 transition-transform"/></div>)}
           </div></div>
         </section>
       </main>
 
       <footer id="contact" className="bg-[#161214] text-gray-300 pt-14 pb-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-white/10">
           <div><div className="flex items-center gap-3 mb-4"><span className="w-10 h-10 rounded-full bg-[#2a1c22] text-[#d8426f] flex items-center justify-center">✿</span><div><span className="font-serif text-2xl font-bold text-white block">Kittu</span><span className="text-[9px] uppercase tracking-[0.22em] text-[#d8426f]">Beauty Parlour</span></div></div><p className="text-xs text-gray-400">Your sanctuary for elevated beauty and personal wellness.</p></div>
-          <div><h4 className="text-xs uppercase text-white mb-4">Quick Links</h4><ul className="space-y-2 text-xs text-gray-400">{[["#home","Home"],["#services","Services"],...navigationLinks].map(([href,label])=><li key={href}><a href={href} className="hover:text-white transition-colors">{label}</a></li>)}</ul></div>
+          <div><h4 className="text-xs uppercase text-white mb-4">Quick Links</h4><ul className="space-y-2 text-xs text-gray-400">{[["#home","Home"],["#services","Services"],...navigationLinks.slice(1)].map(([href,label])=><li key={href}><a href={href} className="hover:text-white transition-colors">{label}</a></li>)}</ul></div>
           <div><h4 className="text-xs uppercase text-white mb-4">Contact Us</h4><a href={`tel:${phone.replace(/\s/g,"")}`} className="text-xs flex items-center gap-2 mb-2 hover:text-white"><Icon name="phone" className="w-4 h-4 text-[#d8426f]"/>{phone}</a><p className="text-xs flex gap-2"><Icon name="pin" className="w-4 h-4 text-[#d8426f]"/>{address}</p></div>
           <div><h4 className="text-xs uppercase text-white mb-4">Quick Booking</h4><p className="text-xs text-gray-400 mb-4">Ready for your next beauty appointment?</p><button onClick={()=>openBooking()} className="py-2.5 px-5 rounded-full bg-[#d8426f] text-white text-xs">Book Appointment Now →</button></div>
         </div><div className="max-w-7xl mx-auto px-4 sm:px-8 pt-6 text-xs text-gray-500 flex flex-col sm:flex-row justify-between"><span>© 2026 Kittu Beauty Parlour</span><span>Made with ♥ for Beauty Lovers</span></div>
@@ -284,10 +297,10 @@ function App() {
         <form onSubmit={e=>{e.preventDefault();createBooking(full)}} className="p-6 overflow-y-auto space-y-4">
           <div className="grid sm:grid-cols-2 gap-3"><input value={full.name} onChange={e=>setFull({...full,name:e.target.value})} placeholder="Your name" className="px-3 py-2.5 rounded-xl border text-xs"/><input value={full.phone} onChange={e=>setFull({...full,phone:e.target.value})} placeholder="Phone number" className="px-3 py-2.5 rounded-xl border text-xs"/></div>
           <select value={full.service} onChange={e=>setFull({...full,service:e.target.value})} className="w-full px-3 py-2.5 rounded-xl border text-xs"><option value="">Select a service</option>{services.map(s=><option key={s.id} value={s.id}>{s.title} — ₹{s.price}</option>)}</select>
-          <div className="grid grid-cols-2 gap-3"><input type="date" min={today} value={full.date} onChange={e=>setFull({...full,date:e.target.value})} className="px-3 py-2 rounded-xl border text-xs"/><select value={full.stylist} onChange={e=>setFull({...full,stylist:e.target.value})} className="px-3 py-2 rounded-xl border text-xs"><option>Any Available Master Stylist</option><option>Priya Sharma (Senior Hair Stylist)</option><option>Ananya Roy (Skin Specialist)</option><option>Maya Mehra (Bridal Artist)</option></select></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3"><input type="date" min={today} value={full.date} onChange={e=>setFull({...full,date:e.target.value})} className="px-3 py-2 rounded-xl border text-xs"/><select value={full.stylist} onChange={e=>setFull({...full,stylist:e.target.value})} className="px-3 py-2 rounded-xl border text-xs"><option>Any Available Master Stylist</option><option>Priya Sharma (Senior Hair Stylist)</option><option>Ananya Roy (Skin Specialist)</option><option>Maya Mehra (Bridal Artist)</option></select></div>
           <div className="grid grid-cols-3 gap-2">{slots.map(([time])=><button type="button" key={time} onClick={()=>setFull({...full,time})} className={`time-slot-btn py-2 rounded-xl text-xs ${full.time===time?"selected":""}`}>{time}</button>)}</div>
           <textarea value={full.notes} onChange={e=>setFull({...full,notes:e.target.value})} placeholder="Special requests (optional)" rows="2" className="w-full px-3 py-2 rounded-xl border text-xs"/>
-          <button type="submit" className="w-full py-3.5 rounded-xl bg-[#25D366] text-white font-bold text-sm">Send Appointment Details to Owner</button>
+          <button type="submit" className="w-full py-3.5 rounded-xl bg-[#25D366] text-white font-bold text-sm">Continue to WhatsApp</button>
         </form>
       </Modal>
 
@@ -303,7 +316,7 @@ function App() {
       </Modal>
 
       <Modal open={videoOpen} onClose={()=>setVideoOpen(false)} wide>
-        <div className="p-4 bg-[#161214] text-white flex justify-between"><span className="font-serif">Virtual Tour</span><button onClick={()=>setVideoOpen(false)}><Icon name="close"/></button></div><video className="w-full aspect-video" controls autoPlay muted loop poster={referenceBannerImage}><source src="https://assets.mixkit.co/videos/preview/mixkit-woman-getting-her-makeup-done-by-a-professional-makeup-artist-41315-large.mp4" type="video/mp4"/></video>
+        <div className="p-4 bg-[#161214] text-white flex justify-between"><span className="font-serif">Virtual Tour</span><button onClick={()=>setVideoOpen(false)}><Icon name="close"/></button></div><video className="w-full aspect-video" controls autoPlay muted loop poster={referenceBannerImage}><source src="https://videos.pexels.com/video-files/7987790/7987790-hd_1920_1080_25fps.mp4" type="video/mp4"/></video>
       </Modal>
     </>
   );
