@@ -9,8 +9,7 @@ import partyMakeupImage from "../assets/images/party_makeup_perfect.jpg";
 import referenceBannerImage from "../assets/images/reference_banner.jpg";
 import "../assets/style.css";
 
-const phone = "+91 83050 06343";
-const ownerWhatsApp = "+91 93995 11825";
+const phone = "+91 93995 11825";
 const address = "Char Sahar Ka Naka, Gwalior, Madhya Pradesh";
 
 const services = [
@@ -138,7 +137,7 @@ function App() {
       `Price: ₹${booking.price}`,
       `Notes: ${booking.specialNotes}`
     ].join("\n");
-    const whatsappUrl = `https://wa.me/${ownerWhatsApp.replace(/\D/g,"")}?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/${phone.replace(/\D/g,"")}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl,"_blank","noopener,noreferrer");
     setToast("Appointment saved. Complete sending in WhatsApp.");
   };
@@ -256,7 +255,7 @@ function App() {
                 <div className="grid grid-cols-3 gap-2">{slots.map(([time])=> <button type="button" key={time} onClick={()=>setQuick({...quick,time})} className={`time-slot-btn py-2 px-2 rounded-xl text-xs ${quick.time===time?"selected":""}`}>{time}</button>)}</div>
                 <button type="submit" className="w-full py-3.5 rounded-xl bg-[#25D366] text-white font-bold text-sm">Continue to WhatsApp</button>
               </form>
-              <p className="text-[11px] text-gray-500 text-center mt-3">WhatsApp booking number: <strong>{ownerWhatsApp}</strong></p>
+              <p className="text-[11px] text-gray-500 text-center mt-3">WhatsApp booking number: <strong>{phone}</strong></p>
             </div>
           </div>
         </section>
