@@ -86,7 +86,7 @@ function App() {
   const [toast,setToast] = useState("");
   const [testimonialIndex,setTestimonialIndex] = useState(0);
   const [quick,setQuick] = useState({name:"",phone:"",service:"",date:"",time:"10:30 AM"});
-  const [full,setFull] = useState({name:"",phone:"",service:"",date:"",stylist:"Any Available Master Stylist",time:"11:30 AM",notes:""});
+  const [full,setFull] = useState({name:"",phone:"",service:"",date:"",stylist:"Pinki Dhakare",time:"11:30 AM",notes:""});
   const [appointments,setAppointments] = useState(()=>{
     try { return JSON.parse(localStorage.getItem("glow_grace_appointments_v3")) || []; } catch { return []; }
   });
@@ -117,7 +117,7 @@ function App() {
       userName:data.name,userPhone:data.phone,userEmail:"",
       serviceId:service.id,serviceTitle:service.title,category:service.category,
       date:data.date,timeSlot:data.time,timeDisplay:`${data.time} - ${slot ? (slot[0].includes("PM")?"Next Hour":"Next Hour") : "Next Hour"}`,
-      duration:service.duration,price:service.price,stylist:data.stylist||"Any Available Master Stylist",
+      duration:service.duration,price:service.price,stylist:data.stylist||"Pinki Dhakare",
       status:"Confirmed",branch:address,specialNotes:data.notes||"None",createdAt:new Date().toISOString()
     };
     const next=[booking,...appointments];
@@ -296,7 +296,7 @@ function App() {
         <form onSubmit={e=>{e.preventDefault();createBooking(full)}} className="p-6 overflow-y-auto space-y-4">
           <div className="grid sm:grid-cols-2 gap-3"><input value={full.name} onChange={e=>setFull({...full,name:e.target.value})} placeholder="Your name" className="px-3 py-2.5 rounded-xl border text-xs"/><input value={full.phone} onChange={e=>setFull({...full,phone:e.target.value})} placeholder="Phone number" className="px-3 py-2.5 rounded-xl border text-xs"/></div>
           <select value={full.service} onChange={e=>setFull({...full,service:e.target.value})} className="w-full px-3 py-2.5 rounded-xl border text-xs"><option value="">Select a service</option>{services.map(s=><option key={s.id} value={s.id}>{s.title} — ₹{s.price}</option>)}</select>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3"><input type="date" min={today} value={full.date} onChange={e=>setFull({...full,date:e.target.value})} className="px-3 py-2 rounded-xl border text-xs"/><select value={full.stylist} onChange={e=>setFull({...full,stylist:e.target.value})} className="px-3 py-2 rounded-xl border text-xs"><option>Any Available Master Stylist</option><option>Priya Sharma (Senior Hair Stylist)</option><option>Ananya Roy (Skin Specialist)</option><option>Maya Mehra (Bridal Artist)</option></select></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3"><input type="date" min={today} value={full.date} onChange={e=>setFull({...full,date:e.target.value})} className="px-3 py-2 rounded-xl border text-xs"/><select value={full.stylist} onChange={e=>setFull({...full,stylist:e.target.value})} className="px-3 py-2 rounded-xl border text-xs"><option>Pinki Dhakare</option></select></div>
           <div className="grid grid-cols-3 gap-2">{slots.map(([time])=><button type="button" key={time} onClick={()=>setFull({...full,time})} className={`time-slot-btn py-2 rounded-xl text-xs ${full.time===time?"selected":""}`}>{time}</button>)}</div>
           <textarea value={full.notes} onChange={e=>setFull({...full,notes:e.target.value})} placeholder="Special requests (optional)" rows="2" className="w-full px-3 py-2 rounded-xl border text-xs"/>
           <button type="submit" className="w-full py-3.5 rounded-xl bg-[#25D366] text-white font-bold text-sm">Continue to WhatsApp</button>
