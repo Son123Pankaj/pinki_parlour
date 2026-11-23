@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kittu Beauty Parlour - Luxury Beauty, Hair & Wellness</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              parlour: { pink: "#d8426f", dark: "#161214", light: "#fdf2f4" }
+            },
+            fontFamily: {
+              serif: ["Playfair Display", "Georgia", "serif"],
+              cormorant: ["Cormorant Garamond", "serif"],
+              script: ["Alex Brush", "cursive"],
+              sans: ["Plus Jakarta Sans", "sans-serif"]
+            }
+          }
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
